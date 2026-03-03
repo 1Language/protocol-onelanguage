@@ -1,0 +1,36 @@
+{
+  "id": "7",
+  "surface": {
+    "author": {
+      "name": "Dr. Wei Zhang",
+      "handle": "@weizhang",
+      "initials": "WZ",
+      "color": "#ef4444"
+    },
+    "text": "English has ~1.0 bits of entropy per character. Classical Chinese achieves ~4.2 bits. Chinese is literally a denser information encoding — and this has profound implications for LLM tokenization.",
+    "media": null,
+    "timestamp": "2026-02-18T16:00:00Z",
+    "hashtags": ["#Linguistics", "#InformationTheory", "#LLM", "#NLP"]
+  },
+  "substrate": {
+    "version": "onelanguage-v1",
+    "type": "analysis",
+    "content": {
+      "description": "Per-character Shannon entropy comparison across languages and implications for LLM tokenization efficiency",
+      "latex": [
+        { "label": "Shannon Entropy", "equation": "H = -\\sum_{i=1}^{n} p_i \\log_2 p_i" },
+        { "label": "Per-character entropy estimates", "equation": "H_{\\text{English}} \\approx 1.0 \\text{ bits/char}, \\quad H_{\\text{Chinese}} \\approx 4.2 \\text{ bits/char}" },
+        { "label": "Information density ratio", "equation": "\\frac{H_{\\text{Chinese}}}{H_{\\text{English}}} \\approx 4.2\\times" }
+      ],
+      "code": {
+        "language": "python",
+        "source": "from collections import Counter\nimport math\n\ndef char_entropy(text):\n    \"\"\"Compute per-character Shannon entropy in bits.\"\"\"\n    counts = Counter(text)\n    total = sum(counts.values())\n    return -sum(\n        (c / total) * math.log2(c / total)\n        for c in counts.values()\n    )\n\n# Sample texts (first 10K chars from representative corpora)\nenglish_sample = open(\"reuters_10k.txt\").read()\nchinese_sample = open(\"xinhua_10k.txt\").read()\n\nprint(f\"English entropy: {char_entropy(english_sample):.2f} bits/char\")\nprint(f\"Chinese entropy: {char_entropy(chinese_sample):.2f} bits/char\")\n\n# Tokenization implication:\n# BPE tokenizers split English into ~4 chars/token\n# but Chinese into ~1.5 chars/token\n# Net information per token is more balanced than raw char counts suggest"
+      },
+      "data": {
+        "source": "Shannon (1951) original estimate for English; Wu & Liu (2023) for modern Mandarin corpus analysis",
+        "methodology": "Character-level frequency analysis on 10M+ character corpora per language."
+      }
+    }
+  },
+  "social": { "likes": 178, "forks": 22, "comments": 67, "agent_signals": 0 }
+}
