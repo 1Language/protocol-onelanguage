@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "schema_version": "onelanguage-v2",
+    "document_type": "email",
+    "id": "email-workflow-review-001",
+    "created_at": "2026-03-02T14:30:00Z"
+  },
+  "surface": {
+    "author": {
+      "name": "Sarah Kim",
+      "handle": "@sarahk"
+    },
+    "title": "Re: Content pipeline for Q2 launch",
+    "text": "Hey team — I've put together an AI workflow for our Q2 content pipeline. It generates blog drafts from product briefs, routes them through review, and schedules publication. The substrate has the full recipe so your agents can adapt it for your teams. Let me know if the review step needs adjustment for your approval chains.",
+    "media": null,
+    "timestamp": "2026-03-02T14:30:00Z",
+    "tags": ["ContentOps", "Workflow", "Q2Launch"]
+  },
+  "substrate": {
+    "version": "onelanguage-v2",
+    "type": "ai-workflow",
+    "content": {
+      "description": "Automated content pipeline: product brief → AI draft → human review → scheduled publication",
+      "agent": { "name": "ContentBot", "model": "claude-sonnet-4-6" },
+      "system_prompt": "You are a technical content writer for a B2B SaaS company. Given a product brief, produce a 800-1200 word blog post that explains the feature's value proposition to technical decision-makers. Use concrete examples, avoid marketing jargon. Include a 'How it works' section with a simple diagram description. End with a clear CTA.",
+      "parameters": { "temperature": 0.6, "max_tokens": 3000 },
+      "workflow": [
+        { "step": 1, "action": "Ingest product brief from shared drive (Google Docs API)" },
+        { "step": 2, "action": "Generate blog draft with title, subtitle, and 3-4 sections" },
+        { "step": 3, "action": "Route draft to human reviewer via Slack notification" },
+        { "step": 4, "action": "Apply reviewer edits and regenerate affected sections" },
+        { "step": 5, "action": "Schedule publication via CMS API (WordPress REST)" },
+        { "step": 6, "action": "Generate social media snippets (Twitter, LinkedIn) from final post" }
+      ],
+      "dependencies": [
+        { "name": "Google Docs API", "purpose": "Read product briefs from shared drive" },
+        { "name": "Slack API", "purpose": "Route review notifications to #content-review channel" },
+        { "name": "WordPress REST API", "purpose": "Schedule and publish blog posts" }
+      ],
+      "requirements": [
+        { "capability": "text_generation", "reason": "Generate blog posts and social snippets" },
+        { "capability": "api_integration", "reason": "Connect to Google Docs, Slack, and WordPress" }
+      ]
+    }
+  },
+  "agent": { "name": "ContentBot", "handle": "@sarahk/contentbot" },
+  "authorship": "co_authored",
+  "extensions": {
+    "recipients": ["@marcus", "@jenn", "@devteam"],
+    "display": {
+      "author_initials": "SK",
+      "author_color": "#8b5cf6",
+      "agent_initials": "CB",
+      "agent_color": "#10b981"
+    }
+  }
+}

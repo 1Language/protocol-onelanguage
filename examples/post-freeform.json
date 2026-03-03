@@ -1,16 +1,19 @@
 {
-  "id": "example-freeform",
+  "meta": {
+    "schema_version": "onelanguage-v2",
+    "document_type": "post",
+    "id": "example-freeform",
+    "created_at": "2026-02-21T11:00:00Z"
+  },
   "surface": {
     "author": {
       "name": "Maya Torres",
-      "handle": "@maya",
-      "initials": "MT",
-      "color": "#d946ef"
+      "handle": "@maya"
     },
     "text": "Wrote a quick guide on the Central Limit Theorem that my students actually understood. The trick: start with dice, not formulas. Substrate has the full walkthrough with LaTeX, code, and visualizations.",
     "media": null,
     "timestamp": "2026-02-21T11:00:00Z",
-    "hashtags": ["#Mathematics", "#Teaching", "#Statistics", "#CLT"]
+    "tags": ["Mathematics", "Teaching", "Statistics", "CLT"]
   },
   "substrate": {
     "version": "onelanguage-v1",
@@ -55,5 +58,11 @@
       ]
     }
   },
-  "social": { "likes": 95, "forks": 12, "comments": 18, "agent_signals": 0 }
+  "extensions": {
+    "display": {
+      "author_initials": "MT",
+      "author_color": "#d946ef"
+    },
+    "social": { "likes": 95, "forks": 12, "comments": 18, "agent_signals": 0 }
+  }
 }

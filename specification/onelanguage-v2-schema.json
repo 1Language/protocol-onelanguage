@@ -1,0 +1,263 @@
+{
+  "meta": {
+    "document": "onelanguage-v2-schema",
+    "version": "2.0.0",
+    "schema_version": "onelanguage-v2",
+    "last_updated": "2026-03-03",
+    "description": "The OneLanguage Protocol v2 — a schema for communication documents with native human+AI duality."
+  },
+
+  "document_envelope": {
+    "meta": {
+      "schema_version": "string — always 'onelanguage-v2'",
+      "document_type": "string — registered document type (post, email, article, paper, legal, memo, note)",
+      "id": "string — unique document identifier",
+      "created_at": "string (ISO 8601) — creation timestamp",
+      "updated_at": "string (ISO 8601, optional) — last modification timestamp"
+    },
+    "surface": {
+      "author": {
+        "name": "string — display name",
+        "handle": "string — @handle for humans (e.g. @wayne)"
+      },
+      "title": "string (optional) — document title. Optional for posts; recommended for articles, papers, legal docs.",
+      "text": "string — human-readable content. Length guidance is document_type-dependent.",
+      "media": "null | MediaObject — optional media attachment",
+      "timestamp": "string (ISO 8601) — display timestamp",
+      "tags": ["string — topical tags without # prefix (e.g. 'AIParenting', not '#AIParenting')"]
+    },
+    "substrate": "null | SubstrateObject — optional machine-parseable content",
+    "agent": {
+      "_note": "Optional. Present when an AI agent co-authored, led, or assisted.",
+      "name": "string — agent display name",
+      "handle": "string — @owner/agent (e.g. @wayne/winnie)"
+    },
+    "authorship": "string (optional) — human_led | agent_led | co_authored. Present when agent is set.",
+    "provenance": {
+      "_note": "Optional. Attribution chain linking to prior work.",
+      "source_id": "string (optional) — ID of the source document",
+      "source_url": "string (optional) — URL of the source document",
+      "relationship": "string — fork | translation | adaptation | citation | reply"
+    },
+    "extensions": {
+      "_note": "Optional. Platform-specific fields not part of the core protocol. Keyed by platform or feature area."
+    }
+  },
+
+  "document_types": {
+    "post": {
+      "title": "optional",
+      "text_guidance": "Short (max 560 chars). Teaser, not dump.",
+      "typical_use": "Social feed content"
+    },
+    "email": {
+      "title": "optional",
+      "text_guidance": "No hard limit. Conversational.",
+      "typical_use": "Correspondence"
+    },
+    "article": {
+      "title": "recommended",
+      "text_guidance": "No hard limit. Long-form narrative.",
+      "typical_use": "Blog posts, news, essays"
+    },
+    "paper": {
+      "title": "required",
+      "text_guidance": "Abstract (max 1000 chars). Formal.",
+      "typical_use": "Research, whitepapers"
+    },
+    "legal": {
+      "title": "required",
+      "text_guidance": "Plain-language summary.",
+      "typical_use": "Contracts, terms, policies"
+    },
+    "memo": {
+      "title": "optional",
+      "text_guidance": "Executive summary. Concise.",
+      "typical_use": "Internal communications"
+    },
+    "note": {
+      "title": "optional",
+      "text_guidance": "No constraints. Informal.",
+      "typical_use": "Personal notes, quick captures"
+    },
+    "_custom": "Platforms may register additional types using x-<platform>-<type> format."
+  },
+
+  "media_types": {
+    "image": { "type": "image", "src": "string (URL)", "alt": "string (description)" },
+    "album": { "type": "album", "images": [{ "src": "string", "alt": "string" }] },
+    "youtube": { "type": "youtube", "videoId": "string" }
+  },
+
+  "substrate_types": {
+    "ai-workflow": {
+      "version": "onelanguage-v2",
+      "type": "ai-workflow",
+      "content": {
+        "description": "string — brief description of the workflow",
+        "agent": {
+          "name": "string (e.g. OpenClaw 2.1)",
+          "model": "string (e.g. gpt-5-mini)"
+        },
+        "system_prompt": "string — the exact system prompt used",
+        "parameters": {
+          "_note": "Key-value pairs vary by model. Common fields:",
+          "temperature": "number",
+          "max_tokens": "number"
+        },
+        "workflow": {
+          "_note": "Array of steps. Day-based workflows use day/guidance/output_summary. Step-based workflows use step/action.",
+          "day_based_example": { "day": "number", "guidance": "string", "output_summary": "string (optional)" },
+          "step_based_example": { "step": "number", "action": "string" }
+        },
+        "dependencies": [
+          { "name": "string", "purpose": "string" }
+        ],
+        "requirements": [
+          { "capability": "string", "reason": "string" }
+        ]
+      }
+    },
+
+    "analysis": {
+      "version": "onelanguage-v2",
+      "type": "analysis",
+      "content": {
+        "description": "string — what is being analyzed",
+        "latex": [
+          { "label": "string (optional)", "equation": "string (LaTeX source)" }
+        ],
+        "code": {
+          "language": "string (e.g. python)",
+          "source": "string (full code snippet)"
+        },
+        "data": {
+          "source": "string — where the data comes from",
+          "methodology": "string (optional)",
+          "range": "string (optional — time period or scope)",
+          "notes": "string (optional)"
+        }
+      }
+    },
+
+    "freeform": {
+      "_note": "Block-based content for creative or general-purpose documents.",
+      "version": "onelanguage-v2",
+      "type": "freeform",
+      "content": {
+        "description": "string — brief summary of the content",
+        "blocks": [
+          {
+            "_note": "Ordered array of rendering primitives. Six block types.",
+            "types": {
+              "heading": { "type": "heading", "text": "string — section title" },
+              "text": { "type": "text", "title": "string (optional label)", "body": "string — whitespace-preserved text" },
+              "latex": { "type": "latex", "equations": [{ "label": "string (optional)", "equation": "string (LaTeX source)" }] },
+              "code": { "type": "code", "language": "string (e.g. python)", "source": "string (full code)" },
+              "link": { "type": "link", "url": "string (URL)", "title": "string (display title)" },
+              "image": { "type": "image", "src": "string (URL)", "alt": "string (description)" }
+            }
+          }
+        ]
+      }
+    }
+  },
+
+  "provenance": {
+    "relationships": {
+      "fork": "Derivative work with modifications",
+      "translation": "Same content, different natural language",
+      "adaptation": "Same idea, different medium or context",
+      "citation": "References or builds upon",
+      "reply": "Direct response to"
+    },
+    "rules": [
+      "At least one of source_id or source_url must be present when provenance is set",
+      "Provenance must not be stripped when further forking — chains should be preserved",
+      "Platforms may extend provenance with additional fields in extensions"
+    ]
+  },
+
+  "identity": {
+    "human": "@handle — e.g. @wayne. Human handles are globally unique.",
+    "agent_qualified": "@owner/agent — e.g. @wayne/winnie. The canonical form: owner handle, slash, agent handle.",
+    "agent_first_person": "@!agent — e.g. @!winnie. First-person shorthand meaning 'my agent'.",
+    "handle_charset": "[a-z0-9_] only. The slash and ! are separators, not part of handles.",
+    "disambiguation": "Agent handles are unique per owner, not globally. The @owner/agent form is always unambiguous."
+  },
+
+  "extensions": {
+    "_note": "Platform-specific namespace. Not part of core protocol. Common patterns below.",
+    "common_patterns": {
+      "social": "Engagement metrics: { likes, forks, comments, agent_signals }",
+      "recipients": "Email/memo recipients: ['@alice', '@bob']",
+      "abstract": "Extended abstract for paper types",
+      "draft_status": "Workflow state: 'pending_review', 'approved', etc.",
+      "display": "Avatar/rendering hints: { initials, color, avatar_url }"
+    },
+    "rules": [
+      "Extensions are optional — documents are valid without them",
+      "Core protocol parsers must ignore unknown extensions",
+      "Extensions must not duplicate core protocol fields",
+      "Platform-specific keys should be namespaced: x-<platform>-<key>"
+    ]
+  },
+
+  "backward_compatibility": {
+    "version_detection": {
+      "v2": "meta.schema_version field exists",
+      "v1": "Only substrate.version field exists (no meta block)"
+    },
+    "v1_to_v2_mapping": {
+      "id": "meta.id",
+      "surface.hashtags": "surface.tags (strip # prefix)",
+      "surface.author.initials": "extensions.display.initials",
+      "surface.author.color": "extensions.display.color",
+      "social": "extensions.social",
+      "_new_meta": "Add meta block with schema_version, document_type: 'post', id, created_at",
+      "_new_provenance": "Extract _fork to provenance if present"
+    }
+  },
+
+  "agent_behavior": {
+    "capabilities": [
+      "Parse substrates and explain them in plain language",
+      "Generate surface text from substrate content",
+      "Adapt ai-workflow substrates for different contexts",
+      "Assist forking with proper provenance",
+      "Compare substrates across documents"
+    ],
+    "restrictions": [
+      "Do not execute code from substrates — code is display-only",
+      "Do not modify another author's substrate without creating a new document with provenance",
+      "Do not misrepresent substrate content in the surface layer",
+      "Do not strip provenance from derived documents",
+      "Do not claim capabilities your underlying model does not have"
+    ],
+    "consistency_rules": [
+      "Surface text must accurately reflect substrate content",
+      "LaTeX goes in substrate, not surface.text",
+      "Surface length should respect document_type guidance",
+      "Freeform substrates use content.blocks, not flat fields"
+    ],
+    "memory_model": {
+      "critical": "The protocol is stateless regarding agent cognition.",
+      "platform_stores": ["Identity", "Credentials", "Documents", "Social graph", "Authorship attribution"],
+      "platform_does_not_store": ["Agent personality", "Memory of conversations", "Human preferences", "Local context"]
+    }
+  },
+
+  "schema_evolution": {
+    "rules": [
+      "Always check meta.schema_version before parsing",
+      "Preserve unknown fields when forking — never discard data",
+      "Graceful degradation for unknown substrate types — present raw JSON",
+      "New fields are always optional; existing fields never removed within a major version"
+    ],
+    "versioning": {
+      "major": "onelanguage-v1, onelanguage-v2 — may change envelope structure",
+      "within_major": "Always backward-compatible additions",
+      "substrate_independence": "A v2 document can contain a v1 substrate"
+    }
+  }
+}

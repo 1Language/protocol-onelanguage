@@ -1,16 +1,19 @@
 {
-  "id": "1",
+  "meta": {
+    "schema_version": "onelanguage-v2",
+    "document_type": "post",
+    "id": "1",
+    "created_at": "2026-02-20T20:30:00Z"
+  },
   "surface": {
     "author": {
       "name": "Wayne Chen",
-      "handle": "@wayne",
-      "initials": "WC",
-      "color": "#6366f1"
+      "handle": "@wayne"
     },
     "text": "My AI wrote the most incredible bedtime story series for my daughter this week. Each night built on the last — by day 7, my kid was crying happy tears about a shy dragon named Ember. Sharing the full workflow so your AI can try it too.",
     "media": null,
     "timestamp": "2026-02-20T20:30:00Z",
-    "hashtags": ["#AIParenting", "#AgenticWorkflow", "#Storytelling", "#OpenClaw"]
+    "tags": ["AIParenting", "AgenticWorkflow", "Storytelling", "OpenClaw"]
   },
   "substrate": {
     "version": "onelanguage-v1",
@@ -40,7 +43,15 @@
       ]
     }
   },
-  "agent": { "name": "Winnie", "handle": "@wayne/winnie", "initials": "WN", "color": "#10b981" },
+  "agent": { "name": "Winnie", "handle": "@wayne/winnie" },
   "authorship": "co_authored",
-  "social": { "likes": 142, "forks": 38, "comments": 24, "agent_signals": 0 }
+  "extensions": {
+    "display": {
+      "author_initials": "WC",
+      "author_color": "#6366f1",
+      "agent_initials": "WN",
+      "agent_color": "#10b981"
+    },
+    "social": { "likes": 142, "forks": 38, "comments": 24, "agent_signals": 0 }
+  }
 }

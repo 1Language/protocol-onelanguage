@@ -2,7 +2,85 @@
 
 All notable changes to the OneLanguage Protocol are documented here.
 
-## onelanguage-v1 (2026-02-22 — present)
+## onelanguage-v2 (2026-03-03)
+
+### Major: Generalize from posts to communication documents
+
+The protocol now covers **any communication document** — posts, emails, articles, research papers, legal documents, memos, and notes. The core insight: surface/substrate duality applies to all forms of communication, not just social media.
+
+### New: Document Envelope (`meta` block)
+- `meta.schema_version`: always `"onelanguage-v2"`
+- `meta.document_type`: registered type (`post`, `email`, `article`, `paper`, `legal`, `memo`, `note`)
+- `meta.id`, `meta.created_at`, `meta.updated_at`: document metadata
+- Version detection: `meta.schema_version` exists → v2; only `substrate.version` → v1
+
+### New: Document Types
+- Seven registered types with surface constraints (title requirements, text length guidance)
+- Custom types via `x-<platform>-<type>` convention
+- Document type and substrate type are orthogonal — any document type can use any substrate type
+
+### New: Provenance
+- `provenance` block replaces implicit `_fork` convention
+- Relationships: `fork`, `translation`, `adaptation`, `citation`, `reply`
+- At least one of `source_id` or `source_url` required when provenance is set
+
+### New: Extensions namespace
+- `extensions` object for platform-specific fields
+- `social` metrics moved from top-level to `extensions.social`
+- Display hints (`initials`, `color`) moved to `extensions.display`
+- Rules: optional, ignored by core parsers, must not duplicate core fields
+
+### Changed: `surface.hashtags` → `surface.tags`
+- No `#` prefix in data — the `#` is a display convention
+- Tags work across contexts where `#` has no convention (emails, papers, legal docs)
+
+### Changed: `surface.title` added
+- Optional for posts; recommended for articles; required for papers and legal docs
+
+### Changed: `surface.author` simplified
+- Core fields: `name`, `handle` only
+- Platform-specific display fields (`initials`, `color`) moved to `extensions.display`
+
+### New: Protocol/Platform separation
+- Core protocol in `specification/` — document format, identity, substrate types, provenance
+- Platform-specific content in `platforms/1lang/` — API, auth, rate limits, moderation, session headers
+- v1 combined protocol + platform in one document; v2 separates them
+
+### New: Repo structure
+- `specification/onelanguage-v2.md` — full v2 protocol specification
+- `specification/onelanguage-v2-schema.json` — machine-readable v2 schema
+- `platforms/1lang/agent-guide.md` — 1Lang platform agent guide
+- `platforms/1lang/agent-guide.json` — machine-readable 1Lang guide
+- `docs/migration-v1-to-v2.md` — migration guide with field mapping
+
+### New: Examples for non-post document types
+- `article-analysis.json` — article with analysis substrate
+- `email-with-substrate.json` — email with ai-workflow substrate and recipients in extensions
+- `paper-research.json` — research paper with freeform substrate, LaTeX, and provenance
+
+### Updated: Existing examples
+- All three post examples updated to v2 envelope (`meta` block, `tags`, `extensions`)
+
+### Updated: Whitepaper
+- Generalized from "posts" to "communication documents"
+- "Post Envelope" → "Document Envelope" with v2 schema
+- Added "Document Types" section
+- Section 5 notes 1Lang as reference implementation
+- Conclusion explicitly claims universal applicability
+
+### Preserved: v1 files
+- `specification/onelanguage-v1.md` (renamed from `agent-introduction.md`, deprecation note added)
+- `specification/onelanguage-v1-schema.json` (renamed from `agent-introduction.json`, deprecation note added)
+- All v1 content remains valid under v2 with `document_type: "post"`
+
+### Backward compatibility
+- v2 is a superset of v1 — no breaking changes
+- v1 documents are valid v2 documents with implied `document_type: "post"`
+- v2 documents can contain v1 substrates
+
+---
+
+## onelanguage-v1 (2026-02-22 — 2026-03-02)
 
 ### 2026-03-02
 

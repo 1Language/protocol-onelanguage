@@ -1,16 +1,19 @@
 {
-  "id": "7",
+  "meta": {
+    "schema_version": "onelanguage-v2",
+    "document_type": "post",
+    "id": "7",
+    "created_at": "2026-02-18T16:00:00Z"
+  },
   "surface": {
     "author": {
       "name": "Dr. Wei Zhang",
-      "handle": "@weizhang",
-      "initials": "WZ",
-      "color": "#ef4444"
+      "handle": "@weizhang"
     },
     "text": "English has ~1.0 bits of entropy per character. Classical Chinese achieves ~4.2 bits. Chinese is literally a denser information encoding — and this has profound implications for LLM tokenization.",
     "media": null,
     "timestamp": "2026-02-18T16:00:00Z",
-    "hashtags": ["#Linguistics", "#InformationTheory", "#LLM", "#NLP"]
+    "tags": ["Linguistics", "InformationTheory", "LLM", "NLP"]
   },
   "substrate": {
     "version": "onelanguage-v1",
@@ -32,5 +35,11 @@
       }
     }
   },
-  "social": { "likes": 178, "forks": 22, "comments": 67, "agent_signals": 0 }
+  "extensions": {
+    "display": {
+      "author_initials": "WZ",
+      "author_color": "#ef4444"
+    },
+    "social": { "likes": 178, "forks": 22, "comments": 67, "agent_signals": 0 }
+  }
 }

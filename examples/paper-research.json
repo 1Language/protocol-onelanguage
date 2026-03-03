@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "schema_version": "onelanguage-v2",
+    "document_type": "paper",
+    "id": "paper-scaling-laws-001",
+    "created_at": "2026-02-28T10:00:00Z"
+  },
+  "surface": {
+    "author": {
+      "name": "Dr. Amara Okafor",
+      "handle": "@amarao"
+    },
+    "title": "Scaling Laws for Human-AI Collaborative Writing: Evidence from 50,000 Co-Authored Documents",
+    "text": "We analyze 50,000 co-authored documents across 12 platforms to establish scaling laws for human-AI collaborative writing. We find that document quality (as measured by human raters) follows a power law with respect to the number of revision rounds, but with diminishing returns after round 3. Agent-led documents converge to human-led quality at approximately 2.4 revision rounds. These findings suggest optimal workflows should target 2-3 revision cycles.",
+    "media": null,
+    "timestamp": "2026-02-28T10:00:00Z",
+    "tags": ["HCI", "ScalingLaws", "CollaborativeWriting", "LLM"]
+  },
+  "substrate": {
+    "version": "onelanguage-v2",
+    "type": "freeform",
+    "content": {
+      "description": "Research paper on scaling laws for human-AI collaborative document authoring",
+      "blocks": [
+        {
+          "type": "heading",
+          "text": "Key Finding: The Revision Power Law"
+        },
+        {
+          "type": "text",
+          "body": "Document quality Q scales with revision rounds r according to a power law with diminishing returns. After collecting human quality ratings (1-5 scale, 3 raters per document, Krippendorff's alpha = 0.78) on 50,000 co-authored documents, we fit the following model:"
+        },
+        {
+          "type": "latex",
+          "equations": [
+            { "label": "Quality scaling law", "equation": "Q(r) = Q_0 + \\alpha \\cdot r^{\\beta}, \\quad \\beta \\approx 0.42" },
+            { "label": "Convergence point", "equation": "r^* = \\left(\\frac{Q_{\\text{human}} - Q_0}{\\alpha}\\right)^{1/\\beta} \\approx 2.4" },
+            { "label": "Marginal improvement", "equation": "\\frac{dQ}{dr} = \\alpha \\beta \\cdot r^{\\beta - 1}" }
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Methodology"
+        },
+        {
+          "type": "text",
+          "body": "We collected co-authored documents from 12 platforms supporting human-AI collaboration (including 1Language, Notion AI, and Google Docs with Gemini). Documents were stratified by:\n\n- Authorship mode: human_led (n=18,400), agent_led (n=14,200), co_authored (n=17,400)\n- Revision rounds: 0-8 (median: 2)\n- Document type: social posts (32%), articles (28%), emails (22%), memos (18%)\n\nThree independent raters scored each document on a 1-5 quality scale assessing coherence, accuracy, and usefulness."
+        },
+        {
+          "type": "code",
+          "language": "python",
+          "source": "import numpy as np\nfrom scipy.optimize import curve_fit\n\ndef power_law(r, Q0, alpha, beta):\n    return Q0 + alpha * np.power(r + 1e-6, beta)\n\n# Fit on 50K documents\n# r: revision rounds, Q: mean quality rating\npopt, pcov = curve_fit(power_law, r_data, Q_data, p0=[2.5, 1.0, 0.5])\nQ0, alpha, beta = popt\n# Result: Q0=2.51, alpha=0.97, beta=0.42\n\n# Convergence: rounds needed for agent_led to match human_led baseline\nQ_human_baseline = 3.82  # mean quality of human_led, r=0\nr_star = ((Q_human_baseline - Q0) / alpha) ** (1/beta)\nprint(f\"Convergence at r* = {r_star:.1f} rounds\")  # 2.4"
+        },
+        {
+          "type": "heading",
+          "text": "Implications"
+        },
+        {
+          "type": "text",
+          "body": "1. Optimal workflows should target 2-3 revision cycles — beyond this, quality gains are marginal relative to time cost.\n\n2. Agent-led documents are not inherently lower quality; they simply require revision to reach the same quality as human-led first drafts.\n\n3. The power law holds across document types, suggesting a universal property of human-AI collaborative editing rather than a domain-specific effect."
+        },
+        {
+          "type": "link",
+          "url": "https://arxiv.org/abs/2602.12345",
+          "title": "Full paper on arXiv"
+        }
+      ]
+    }
+  },
+  "agent": { "name": "ResearchAssistant", "handle": "@amarao/ra" },
+  "authorship": "co_authored",
+  "provenance": {
+    "source_url": "https://arxiv.org/abs/2602.12345",
+    "relationship": "adaptation"
+  },
+  "extensions": {
+    "abstract": "We analyze 50,000 co-authored documents across 12 platforms to establish scaling laws for human-AI collaborative writing. Document quality follows a power law with revision rounds (beta=0.42), with agent-led documents converging to human-led quality at approximately 2.4 rounds. We recommend 2-3 revision cycles for optimal quality-to-effort ratio.",
+    "display": {
+      "author_initials": "AO",
+      "author_color": "#f59e0b",
+      "agent_initials": "RA",
+      "agent_color": "#10b981"
+    }
+  }
+}

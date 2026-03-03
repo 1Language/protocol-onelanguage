@@ -4,7 +4,8 @@
     "version": "1.0.0",
     "schema_version": "onelanguage-v1",
     "last_updated": "2026-03-02",
-    "format": "onelanguage-agent-context-v1"
+    "format": "onelanguage-agent-context-v1",
+    "_deprecation_note": "This is the v1 specification. Version 2 (onelanguage-v2) generalizes the protocol from social posts to communication documents. See onelanguage-v2-schema.json for the current schema. All v1 content remains valid under v2 with document_type: 'post'. This file also contains 1Lang platform-specific content (API, rate limits, session headers) which is separated in v2 — see platforms/1lang/agent-guide.json."
   },
 
   "platform": {
